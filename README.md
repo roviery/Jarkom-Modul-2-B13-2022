@@ -661,3 +661,20 @@ Penyelesaian:
 - Hasil 
 
   ![soal-16-1](https://cdn.discordapp.com/attachments/818146232689098802/1035520483979956234/unknown.png)
+
+## Soal 17
+Karena website www.eden.wise.yyy.com semakin banyak pengunjung dan banyak modifikasi sehingga banyak gambar-gambar yang random, maka Loid ingin mengubah request gambar yang memiliki substring “eden” akan diarahkan menuju eden.png. Bantulah Agent Twilight dan Organisasi WISE menjaga perdamaian! 
+
+Penyelesaian:
+- Membuat file *.htaccess* pada folder */var/www/eden.wise.b13.com* dan isi dengan RewriteRule seperti berikut
+  ```
+  RewriteEngine on
+  RewriteRule ^eden public/images/eden.png
+  ```
+- Menambahkan Directory /var/www/eden.wise.b13.com pada file /etc/apache2/sites-available/wise.b13.com.conf sehingga seperti berikut
+  ```
+  <Directory /var/www/eden.wise.b13.com>
+          Options +FollowSymLinks -Multiviews
+          AllowOverride All
+  </Directory>
+  ```
