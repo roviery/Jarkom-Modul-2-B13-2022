@@ -226,4 +226,66 @@ Penyelesaian:
   - Hasil
     ![soal-5-1](https://cdn.discordapp.com/attachments/818146232689098802/1035229726626820228/unknown.png)
     ![soal-5-2](https://cdn.discordapp.com/attachments/818146232689098802/1035229951890292807/unknown.png)
-  
+
+## Soal 6
+Karena banyak informasi dari Handler, buatlah subdomain yang khusus untuk operation yaitu **operation.wise.yyy.com** dengan alias **www.operation.wise.yyy.com** yang didelegasikan dari WISE ke Berlint dengan IP menuju ke Eden dalam folder operation
+
+Penyelesaian:
+- Menambahkan delegasi operation di */etc/bind/b13/wise.b13.com* pada node WISE
+  ```
+  ;
+  ; BIND data file for local loopback interface
+  ;
+  $TTL    604800
+  @       IN      SOA     wise.b13.com. root.wise.b13.com. (
+                      2022102401         ; Serial
+                          604800         ; Refresh
+                            86400         ; Retry
+                          2419200         ; Expire
+                          604800 )       ; Negative Cache TTL
+  ;
+  @               IN      NS      wise.b13.com.
+  @               IN      A       192.179.3.2             ; IP WISE
+  www             IN      CNAME   wise.b13.com.
+  eden            IN      A       192.179.2.3             ; IP Eden
+  ns1             IN      A       192.179.2.2             ; IP Berlint
+  operation       IN      NS      ns1
+  @               IN      AAAA    ::1
+  ```
+- Menambahkan zone di */etc/bind/named.conf.local* pada node Berlint
+  ```
+  zone "wise.b13.com" {
+          type slave;
+          masters { 192.179.3.2; }; // IP WISE
+          file "/var/lib/bind/wise.b13.com";
+  };
+
+  zone "operation.wise.b13.com" {
+          type master;
+          file "/etc/bind/operation/operation.wise.b13.com";
+  };
+  ```
+- Membuat folder */etc/bind/operation* di Berlint
+  ```
+  mkdir /etc/bind/operation
+  ```
+- Membuat file *operation.wise.b13.com* di folder */etc/bind/operation* dan isi dengan isian seperti berikut
+  ```
+  ;
+  ; BIND data file for local loopback interface
+  ;
+  $TTL    604800
+  @       IN      SOA     operation.wise.b13.com. root.operation.wise.b13.com. (
+                      2022102401         ; Serial
+                          604800         ; Refresh
+                            86400         ; Retry
+                          2419200         ; Expire
+                          604800 )       ; Negative Cache TTL
+  ;
+  @       IN      NS      operation.wise.b13.com.
+  @       IN      A       192.179.2.3             ; IP Eden
+  www     IN      CNAME   operation.wise.b13.com.
+  @       IN      AAAA    ::1
+  ```
+- Hasil
+  ![soal-6-1](https://cdn.discordapp.com/attachments/818146232689098802/1035505163202465873/unknown.png)
