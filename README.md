@@ -484,6 +484,10 @@ Penyelesaian:
 
   # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
   ```
+- Restart service apache
+  ```
+  service apache2 restart
+  ```
 - Hasil
   - Proses Input Username
   ![soal-15-1](https://cdn.discordapp.com/attachments/818146232689098802/1035514418307539014/unknown.png)
