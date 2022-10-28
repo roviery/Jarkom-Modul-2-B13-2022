@@ -20,8 +20,9 @@ Penyelesaian:
   ```
   nameserver 192.168.122.1
   ``` 
+- Hasil 
 
-![soal-1-1](https://cdn.discordapp.com/attachments/818146232689098802/1035216888382365777/unknown.png) 
+  ![soal-1-1](https://cdn.discordapp.com/attachments/818146232689098802/1035216888382365777/unknown.png) 
 
 ## Soal 2
 Untuk mempermudah mendapatkan informasi mengenai misi dari Handler, bantulah Loid membuat website utama dengan akses wise.yyy.com dengan alias www.wise.yyy.com pada folder wise
@@ -65,7 +66,8 @@ Penyelesaian:
   ```
   service bind9 restart
   ```
-- Hasil
+- Hasil 
+
   ![soal-2-1](https://cdn.discordapp.com/attachments/818146232689098802/1035221183802658957/unknown.png)
 
 
@@ -126,8 +128,9 @@ Penyelesaian:
   ```
   service bind9 restart
   ```
-- Hasil
-![soal3-1](https://cdn.discordapp.com/attachments/818146232689098802/1035223725701857360/unknown.png)
+- Hasil 
+
+  ![soal3-1](https://cdn.discordapp.com/attachments/818146232689098802/1035223725701857360/unknown.png)
 
 ## Soal 4
 Buat juga reverse domain untuk domain utama
@@ -172,7 +175,8 @@ Penyelesaian:
   ```
   service bind9 restart
   ```
-- Hasil
+- Hasil 
+
   ![Soal-4-1](https://cdn.discordapp.com/attachments/818146232689098802/1035226116509683712/unknown.png)
 
 ## Soal 5
@@ -223,8 +227,10 @@ Penyelesaian:
     nameserver 192.179.3.2
     nameserver 192.179.2.2
     ```
-  - Hasil
-    ![soal-5-1](https://cdn.discordapp.com/attachments/818146232689098802/1035229726626820228/unknown.png)
+  - Hasil 
+
+    ![soal-5-1](https://cdn.discordapp.com/attachments/818146232689098802/1035229726626820228/unknown.png) 
+
     ![soal-5-2](https://cdn.discordapp.com/attachments/818146232689098802/1035229951890292807/unknown.png)
 
 ## Soal 6
@@ -287,7 +293,8 @@ Penyelesaian:
   www     IN      CNAME   operation.wise.b13.com.
   @       IN      AAAA    ::1
   ```
-- Hasil
+- Hasil 
+
   ![soal-6-1](https://cdn.discordapp.com/attachments/818146232689098802/1035505163202465873/unknown.png)
 
 ## Soal 13
@@ -346,7 +353,8 @@ Penyelesaian:
   ```
   lynx www.eden.wise.yyy.com/js
   ```
-- Hasil
+- Hasil 
+
   ![soal-13-1](https://cdn.discordapp.com/attachments/818146232689098802/1035517364550242314/unknown.png)
 
 ## Soal 14
@@ -427,7 +435,8 @@ Penyelesaian:
   ```
   service apache2 restart
   ```
-- Hasil
+- Hasil 
+
   ![soal-14-1](https://cdn.discordapp.com/attachments/818146232689098802/1035510320774529094/unknown.png)
 
 ## Soal 15
