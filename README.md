@@ -7,6 +7,113 @@
 | 2 | Elbert Dicky Aristyo | 5025201231 |
 | 3 | Nathanael Roviery | 5025201258 |
 
+- [Network Configuration](#network-configuration)
+- [Package Installation (Starter)](#package-installation-starter)
+- [Soal 1](#soal-1)
+- [Soal 2](#soal-2)
+- [Soal 3](#soal-3)
+- [Soal 4](#soal-4)
+- [Soal 5](#soal-5)
+- [Soal 6](#soal-6)
+- [Soal 13](#soal-13)
+- [Soal 14](#soal-14)
+- [Soal 15](#soal-15)
+- [Soal 16](#soal-16)
+- [Soal 17](#soal-17)
+
+## Network Configuration
+### **Ostania**
+```
+auto eth0
+iface eth0 inet dhcp
+
+auto eth1
+iface eth1 inet static
+	address  192.179.1.1
+	netmask 255.255.255.0
+
+auto eth2
+iface eth2 inet static
+	address 192.179.2.1
+	netmask 255.255.255.0
+
+auto eth3
+iface eth3 inet static
+	address 192.179.3.1
+	netmask 255.255.255.0
+```
+### **WISE**
+```
+auto eth0
+iface eth0 inet static
+	address 192.179.3.2
+	netmask 255.255.255.0
+	gateway 192.179.3.1
+```
+### **Berlint**
+```
+auto eth0
+iface eth0 inet static
+	address 192.179.2.2
+	netmask 255.255.255.0
+	gateway 192.179.2.1
+```
+### **Eden**
+```
+auto eth0
+iface eth0 inet static
+	address 192.179.2.3
+	netmask 255.255.255.0
+	gateway 192.179.2.1
+```
+### **SSS**
+```
+auto eth0
+iface eth0 inet static
+	address 192.179.1.2
+	netmask 255.255.255.0
+	gateway 192.179.1.1
+```
+### **Garden**
+```
+auto eth0
+iface eth0 inet static
+	address 192.179.1.3
+	netmask 255.255.255.0
+	gateway 192.179.1.1
+```
+## Package Installation (Starter) 
+### **Ostania**
+```
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 192.179.0.0/16
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+apt-get update
+```
+### **WISE** & **Berlint**
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+apt-get update
+apt-get install bind9 -y
+```
+### **Eden**
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+apt-get install wget
+apt-get install unzip
+apt-get install apache2
+apt-get install apache2 apache2-utils
+apt-get install php
+apt-get install libapache2-mod-php7.0
+service apache2 start
+```
+### **SSS** & **GARDEN**
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+apt-get update
+apt-get install dnsutils -y
+apt-get install lynx -y
+```
+
 ## Soal 1
 WISE akan dijadikan sebagai DNS Master, Berlint akan dijadikan DNS Slave, dan Eden akan digunakan sebagai Web Server. Terdapat 2 Client yaitu SSS, dan Garden. Semua node terhubung pada router Ostania, sehingga dapat mengakses internet.
 
