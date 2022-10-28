@@ -290,6 +290,65 @@ Penyelesaian:
 - Hasil
   ![soal-6-1](https://cdn.discordapp.com/attachments/818146232689098802/1035505163202465873/unknown.png)
 
+## Soal 13
+Loid juga meminta Franky untuk dibuatkan konfigurasi virtual host. Virtual host ini bertujuan untuk dapat mengakses file asset **www.eden.wise.yyy.com/public/js** menjadi **www.eden.wise.yyy.com/js**
+
+Penyelesaian:
+- Menambahkan alias pada file */etc/apache2/sites-available/eden.wise.b13.com.conf* sehingga menjadi seperti berikut
+  ```
+  <VirtualHost *:80>
+          # The ServerName directive sets the request scheme, hostname and port that
+          # the server uses to identify itself. This is used when creating
+          # redirection URLs. In the context of virtual hosts, the ServerName
+          # specifies what hostname must appear in the request's Host: header to
+          # match this virtual host. For the default virtual host (this file) this
+          # value is not decisive as it is used as a last resort host regardless.
+          # However, you must set it for any further virtual host explicitly.
+          #ServerName www.example.com
+
+          ServerAdmin webmaster@localhost
+          DocumentRoot /var/www/eden.wise.b13.com
+          ServerName eden.wise.b13.com
+          ServerAlias www.eden.wise.b13.com
+
+          <Directory /var/www/eden.wise.b13.com/public>
+                  Options +Indexes
+          </Directory>
+
+          Alias "/js" "/var/www/eden.wise.b13.com/public/js"
+
+          # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+          # error, crit, alert, emerg.
+          # It is also possible to configure the loglevel for particular
+          # modules, e.g.
+          #LogLevel info ssl:warn
+
+          ErrorLog ${APACHE_LOG_DIR}/error.log
+          CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+          ErrorDocument 404 /error/404.html
+
+          # For most configuration files from conf-available/, which are
+          # enabled or disabled at a global level, it is possible to
+          # include a line for only one particular virtual host. For example the
+          # following line enables the CGI configuration for this host only
+          # after it has been globally disabled with "a2disconf".
+          #Include conf-available/serve-cgi-bin.conf
+  </VirtualHost>
+
+  # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+  ```
+- Restart service apache
+  ```
+  service apache2 restart
+  ```
+- Buka melalui client dengan command
+  ```
+  lynx www.eden.wise.yyy.com/js
+  ```
+- Hasil
+  ![soal-13-1](https://cdn.discordapp.com/attachments/818146232689098802/1035517364550242314/unknown.png)
+
 ## Soal 14
 Loid meminta agar www.strix.operation.wise.yyy.com hanya bisa diakses dengan port 15000 dan port 15500
 
