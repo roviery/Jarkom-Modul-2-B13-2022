@@ -413,6 +413,238 @@ Penyelesaian:
 
   ![soal-6-1](https://cdn.discordapp.com/attachments/818146232689098802/1035505163202465873/unknown.png)
 
+## Soal 7
+Untuk informasi yang lebih spesifik mengenai Operation Strix, buatlah subdomain melalui Berlint dengan akses **strix.operation.wise.yyy.com** dengan alias **www.strix.operation.wise.yyy.com** yang mengarah ke Eden
+
+Penyelesaian:
+- Menambahkan subdomain di */etc/bind/operation/operation.wise.b13.com* pada node Berlint sehingga seperti berikut
+  ```
+  ;
+  ; BIND data file for local loopback interface
+  ;
+  $TTL    604800
+  @       IN      SOA     operation.wise.b13.com. root.operation.wise.b13.com. (
+                      2022102401         ; Serial
+                          604800         ; Refresh
+                            86400         ; Retry
+                          2419200         ; Expire
+                          604800 )       ; Negative Cache TTL
+  ;
+  @       IN      NS      operation.wise.b13.com.
+  @       IN      A       192.179.2.3             ; IP Eden
+  strix   IN      A       192.179.2.3             ; IP Eden
+  @       IN      AAAA    ::1
+  ```
+- Membuat zone baru di */etc/bind/named.conf.local*
+  ```
+  zone "wise.b13.com" {
+          type slave;
+          masters { 192.179.3.2; }; // IP WISE
+          file "/var/lib/bind/wise.b13.com";
+  };
+
+  zone "operation.wise.b13.com" {
+          type master;
+          file "/etc/bind/operation/operation.wise.b13.com";
+  };
+
+  zone "strix.operation.wise.b13.com" {
+          type master;
+          file "/etc/bind/operation/strix.operation.wise.b13.com";
+  };
+  ```
+- Menambuat file *strix.operation.wise.b13.com* di folder */etc/bind/operation* dan menambahkan alias
+  ```
+  ;
+  ; BIND data file for local loopback interface
+  ;
+  $TTL    604800
+  @       IN      SOA     strix.operation.wise.b13.com. root.strix.operation.wise.b13.com. (
+                      2022102401         ; Serial
+                          604800         ; Refresh
+                            86400         ; Retry
+                          2419200         ; Expire
+                          604800 )       ; Negative Cache TTL
+  ;
+  @       IN      NS      strix.operation.wise.b13.com.
+  @       IN      A       192.179.2.3             ; IP Eden
+  www     IN      CNAME   strix.operation.wise.b13.com.
+  @       IN      AAAA    ::1
+  ```
+- Hasil 
+
+  ![soal-7-1](https://cdn.discordapp.com/attachments/818146232689098802/1035860064193495071/unknown.png)
+
+## Soal 8
+Setelah melakukan konfigurasi server, maka dilakukan konfigurasi Webserver. Pertama dengan webserver **www.wise.yyy.com**. Pertama, Loid membutuhkan webserver dengan DocumentRoot pada /var/www/wise.yyy.com 
+
+Penyelesaian:
+- Ubah Record A dan PTR pada wise.b13.com mengarah ke Eden
+- Membuat folder baru */var/www/wise.b13.com* di node Eden
+  ```
+  mkdir /var/www/wise.b13.com
+  ```
+- Memasukan Resource **wise.b13.com**
+- Membuat file konfigurasi *wise.b13.com.conf* di folder */etc/apache2/sites-available* dan isi dengan isian seperti berikut
+  ```
+  <VirtualHost *:80>
+          # The ServerName directive sets the request scheme, hostname and port that
+          # the server uses to identify itself. This is used when creating
+          # redirection URLs. In the context of virtual hosts, the ServerName
+          # specifies what hostname must appear in the request's Host: header to
+          # match this virtual host. For the default virtual host (this file) this
+          # value is not decisive as it is used as a last resort host regardless.
+          # However, you must set it for any further virtual host explicitly.
+          #ServerName www.example.com
+
+          ServerAdmin webmaster@localhost
+          DocumentRoot /var/www/wise.b13.com
+          ServerName wise.b13.com
+          ServerAlias www.wise.b13.com
+
+          # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+          # error, crit, alert, emerg.
+          # It is also possible to configure the loglevel for particular
+          # modules, e.g.
+          #LogLevel info ssl:warn
+
+          ErrorLog ${APACHE_LOG_DIR}/error.log
+          CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+          # For most configuration files from conf-available/, which are
+          # enabled or disabled at a global level, it is possible to
+          # include a line for only one particular virtual host. For example the
+          # following line enables the CGI configuration for this host only
+          # after it has been globally disabled with "a2disconf".
+          #Include conf-available/serve-cgi-bin.conf
+  </VirtualHost>
+
+  # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+  ```
+- Enable sites
+  ```
+  a2ensite wise.b13.com
+  ```
+- Restart service apache
+  ```
+  service apache2 restart
+  ```
+- Buka melalui client
+  ```
+  lynx wise.b13.com
+  ```
+- Hasil 
+
+  ![soal-8-1](https://cdn.discordapp.com/attachments/818146232689098802/1035863178787172435/unknown.png)
+
+## Soal 9
+Setelah itu, Loid juga membutuhkan agar url www.wise.yyy.com/index.php/home dapat menjadi menjadi www.wise.yyy.com/home
+
+Penyelesaian:
+- Menambahkan alias pada /etc/apache2/sites-available/wise.b13.com
+  ```
+  Alias "/home" "/var/www/wise.b13.com/index.php/home"
+  ```
+- Restart service apache2
+  ```
+  service apache2 restart
+  ```
+- Buka melalui client
+  ```
+  lynx wise.b13.com/home
+  ```
+- Hasil 
+
+  ![soal-9-1](https://cdn.discordapp.com/attachments/818146232689098802/1035863178787172435/unknown.png)
+
+## Soal 10
+Setelah itu, pada subdomain **www.eden.wise.yyy.com**, Loid membutuhkan penyimpanan aset yang memiliki DocumentRoot pada /var/www/eden.wise.yyy.com
+
+Penyelesaian:
+- Membuat folder */var/www/eden.wise.b13.com*
+  ```
+  mkdir /var/www/eden.wise.b13.com
+  ```
+- Memasukkan resource eden.wise ke folder tersebut
+- Melakukan konfigurasi web server dengan membuat file */etc/apache2/sites-available/eden.wise.b13.com.conf* dan isi dengan isian berikut
+  ```
+  <VirtualHost *:80>
+          # The ServerName directive sets the request scheme, hostname and port that
+          # the server uses to identify itself. This is used when creating
+          # redirection URLs. In the context of virtual hosts, the ServerName
+          # specifies what hostname must appear in the request's Host: header to
+          # match this virtual host. For the default virtual host (this file) this
+          # value is not decisive as it is used as a last resort host regardless.
+          # However, you must set it for any further virtual host explicitly.
+          #ServerName www.example.com
+
+          ServerAdmin webmaster@localhost
+          DocumentRoot /var/www/eden.wise.b13.com
+          ServerName eden.wise.b13.com
+          ServerAlias www.eden.wise.b13.com
+
+          # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+          # error, crit, alert, emerg.
+          # It is also possible to configure the loglevel for particular
+          # modules, e.g.
+          #LogLevel info ssl:warn
+
+          ErrorLog ${APACHE_LOG_DIR}/error.log
+          CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+          # For most configuration files from conf-available/, which are
+          # enabled or disabled at a global level, it is possible to
+          # include a line for only one particular virtual host. For example the
+          # following line enables the CGI configuration for this host only
+          # after it has been globally disabled with "a2disconf".
+          #Include conf-available/serve-cgi-bin.conf
+  </VirtualHost>
+
+  # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+  ```
+- Enable sites
+  ```
+  a2ensite eden.wise.b13.com
+  ```
+- Restart service apache
+  ```
+  service apache2 restart
+  ```
+- Hasil 
+
+  ![soal-10-1](https://cdn.discordapp.com/attachments/818146232689098802/1035865904011034675/unknown.png)
+
+## Soal 11
+Akan tetapi, pada folder /public, Loid ingin hanya dapat melakukan directory listing saja
+
+Penyelesaian:
+- Masukan directory listing pada folder /public
+  ```
+  <Directory /var/www/eden.wise.b13.com/public>
+          Options +Indexes
+  </Directory>
+  ```
+- Restart service apache
+  ```
+  service apache2 restart
+  ```
+
+## Soal 12
+Tidak hanya itu, Loid juga ingin menyiapkan error file 404.html pada folder /error untuk mengganti error kode pada apache
+
+Penyelesaian:
+- Menambahkan ErrorDocument pada *eden.wise.b13.com.conf*
+  ```
+  ErrorDocument 404 /error/404.html
+  ```
+- Restart service apache
+  ```
+  service apache2 restart
+  ```
+- Hasil 
+
+  ![soal-12-1](https://cdn.discordapp.com/attachments/818146232689098802/1035866742313992242/unknown.png)
+
 ## Soal 13
 Loid juga meminta Franky untuk dibuatkan konfigurasi virtual host. Virtual host ini bertujuan untuk dapat mengakses file asset **www.eden.wise.yyy.com/public/js** menjadi **www.eden.wise.yyy.com/js**
 
