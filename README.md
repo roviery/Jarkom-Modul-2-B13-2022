@@ -15,6 +15,7 @@
 - [Soal 4](#soal-4)
 - [Soal 5](#soal-5)
 - [Soal 6](#soal-6)
+- [Soal 7](#soal-7)
 - [Soal 13](#soal-13)
 - [Soal 14](#soal-14)
 - [Soal 15](#soal-15)
@@ -668,8 +669,10 @@ Karena website www.eden.wise.yyy.com semakin banyak pengunjung dan banyak modifi
 Penyelesaian:
 - Membuat file *.htaccess* pada folder */var/www/eden.wise.b13.com* dan isi dengan RewriteRule seperti berikut
   ```
-  RewriteEngine on
-  RewriteRule ^eden public/images/eden.png
+  RewriteEngine On
+  RewriteCond %{REQUEST_URI} !^/public/images/eden.png$
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)eden(.*)$ /public/images/eden.png [R=301,L]
   ```
 - Menambahkan Directory /var/www/eden.wise.b13.com pada file /etc/apache2/sites-available/wise.b13.com.conf sehingga seperti berikut
   ```
@@ -678,3 +681,26 @@ Penyelesaian:
           AllowOverride All
   </Directory>
   ```
+- Restart service apache
+  ```
+  service apache2 restart
+  ```
+- Tes buka melalui client dengan command berikut
+  ```
+  lynx www.eden.wise.b13.com/awodijadedenaiwodj
+  ```
+- Hasil 
+
+  ![soal-17-1](https://cdn.discordapp.com/attachments/818146232689098802/1035853131520679936/unknown.png)
+  
+  Tekan "D" untuk *download* 
+
+  ![soal-17-2](https://cdn.discordapp.com/attachments/818146232689098802/1035853308247691314/unknown.png)
+
+  Ketik **eden.png** sebagai nama output file yang akan di download
+
+  ![soal-17-3](https://cdn.discordapp.com/attachments/818146232689098802/1035853732895784960/unknown.png)
+
+  Sehingga diperoleh hasil seperti berikut
+
+  ![soal-17-4](https://cdn.discordapp.com/attachments/818146232689098802/1035854135834193920/unknown.png)
