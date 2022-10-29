@@ -188,7 +188,7 @@ Penyelesaian:
 
 
 ## Soal 3
-Setelah itu ia juga ingin membuat subdomain **eden.wise.yyy.com** dengan alias **www.eden.wise.yyy.com** yang diatur DNS-nya di WISE dan mengarah ke Eden
+Setelah itu ia juga ingin membuat subdomain **eden.wise.yyy.com** dengan alias **www.eden.wise.yyy.com** yang diatur DNS-nya di WISE dan mengarah ke Eden.
 
 Penyelesaian:
 - Menambahkan Eden sebagai subdomain di file */etc/bind/b13/wise.b13.com*
