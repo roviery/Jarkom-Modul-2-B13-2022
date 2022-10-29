@@ -16,6 +16,11 @@
 - [Soal 5](#soal-5)
 - [Soal 6](#soal-6)
 - [Soal 7](#soal-7)
+- [Soal 8](#soal-8)
+- [Soal 9](#soal-9)
+- [Soal 10](#soal-10)
+- [Soal 11](#soal-11)
+- [Soal 12](#soal-12)
 - [Soal 13](#soal-13)
 - [Soal 14](#soal-14)
 - [Soal 15](#soal-15)
@@ -114,6 +119,9 @@ apt-get update
 apt-get install dnsutils -y
 apt-get install lynx -y
 ```
+
+## Opening
+Twilight (〈黄昏 (たそがれ) 〉, <*Tasogare*>) adalah seorang mata-mata yang berasal dari negara Westalis. Demi menjaga perdamaian antara Westalis dengan Ostania, Twilight dengan nama samaran Loid Forger (ロイド・フォージャー, Roido Fōjā) di bawah organisasi WISE menjalankan operasinya di negara Ostania dengan cara melakukan spionase, sabotase, penyadapan dan kemungkinan pembunuhan. Berikut adalah peta dari negara Ostania:
 
 ## Soal 1
 WISE akan dijadikan sebagai DNS Master, Berlint akan dijadikan DNS Slave, dan Eden akan digunakan sebagai Web Server. Terdapat 2 Client yaitu SSS, dan Garden. Semua node terhubung pada router Ostania, sehingga dapat mengakses internet.
